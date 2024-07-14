@@ -1,0 +1,93 @@
+seu_projeto/
+└── src/
+    └── Main.java
+    import java.util.Scanner;
+
+    class ContaBancaria {
+        private String agencia;
+        private String nomeCliente;
+        private double saldo;
+    
+        public ContaBancaria(String agencia, String nomeCliente, double saldo) {
+            this.agencia = agencia;
+            this.nomeCliente = nomeCliente;
+            this.saldo = saldo;
+        }
+    
+        public void exibirDetalhes() {
+            System.out.println("Agência: " + agencia);
+            System.out.println("Nome do Cliente: " + nomeCliente);
+            System.out.println("Saldo: R$" + String.format("%.2f", saldo));
+        }
+    
+        public void depositar(double valor) {
+            if (valor > 0) {
+                saldo += valor;
+                System.out.println("Depósito de R$" + String.format("%.2f", valor) + " realizado com sucesso!");
+            } else {
+                System.out.println("Valor de depósito inválido.");
+            }
+        }
+    
+        public void sacar(double valor) {
+            if (valor > 0 && valor <= saldo) {
+                saldo -= valor;
+                System.out.println("Saque de R$" + String.format("%.2f", valor) + " realizado com sucesso!");
+            } else {
+                System.out.println("Valor de saque inválido ou saldo insuficiente.");
+            }
+        }
+    }
+    
+    public class Main {
+        public static ContaBancaria criarConta() {
+            Scanner scanner = new Scanner(System.in);
+    
+            System.out.print("Digite a agência: ");
+            String agencia = scanner.nextLine();
+    
+            System.out.print("Digite o nome do cliente: ");
+            String nomeCliente = scanner.nextLine();
+    
+            System.out.print("Digite o saldo inicial: ");
+            double saldo = scanner.nextDouble();
+    
+            return new ContaBancaria(agencia, nomeCliente, saldo);
+        }
+    
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            ContaBancaria conta = criarConta();
+            conta.exibirDetalhes();
+    
+            while (true) {
+                System.out.println("\nEscolha uma operação:");
+                System.out.println("1. Exibir detalhes da conta");
+                System.out.println("2. Depositar");
+                System.out.println("3. Sacar");
+                System.out.println("4. Sair");
+                System.out.print("Digite o número da operação: ");
+                int escolha = scanner.nextInt();
+    
+                if (escolha == 1) {
+                    conta.exibirDetalhes();
+                } else if (escolha == 2) {
+                    System.out.print("Digite o valor para depósito: ");
+                    double valor = scanner.nextDouble();
+                    conta.depositar(valor);
+                } else if (escolha == 3) {
+                    System.out.print("Digite o valor para saque: ");
+                    double valor = scanner.nextDouble();
+                    conta.sacar(valor);
+                } else if (escolha == 4) {
+                    System.out.println("Saindo...");
+                    break;
+                } else {
+                    System.out.println("Escolha inválida. Tente novamente.");
+                }
+            }
+    
+            scanner.close();
+        }
+    }
+    
